@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加书籍</title>
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-header {
+            display: inline-block;
+            width: 800px;
+        }
+        .ul_list {
+            padding-top: 8px;
+            padding-left: 15px;
+            display: inline-block;
+            color: #fff;
+        }
+
+        #con_btn {
+            padding: 0;
+        }
+
+        .row {
+            float: right;
+            display: inline-block;
+            width: 600px;
+            padding-top: 15px;
+            padding-left: 200px;
+        }
+
+        .input-group {
+            width: 300px;
+        }
+
+        .container1 {
+            width: 60%;
+            margin: auto;
+        }
+
+        #sub-btn {
+            width: 20%;
+            margin: auto;
+        }
+
+        #cancel {
+
+            display: inline-block;
+            float: right;
+            margin-top: -36px;
+        }
+    </style>
+</head>
+<body>
+<div class="lead_head">
+    {#导航条#}
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="logo">
+                    <div class="container">
+                        <div class="ul_list">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" id="con_btn">
+                                        <button type="button" class="btn btn-default navbar-btn">Welcome to the Book
+                                            Store
+                                        </button>
+                                    </a></li>
+                                    <li>
+                                        <a href="#">Index</a></li>
+
+                                    <li>
+                                        <a href="#">Books</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Issuers</a></li>
+                                    <li>
+                                        <a href="#">Authors</a></li>
+
+                                </ul>
+                                </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Anything U Want">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container1">
+    <div class="row1">
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="">名称</label>
+                <input type="text" name="title" class="form-control" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="">价格</label>
+                <input type="text" name="price" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="">出版日期</label>
+                <input type="date" name="pub_date" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="">出版社</label>
+                <select name="publish_id" id="" class="form-control">
+                    {% for publish in publish_list %}
+                        <option value="{{ publish.pk }}">{{ publish.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="">作者</label>
+                <select type="text" name="authors_id_list" multiple class="form-control">
+                    {% for author in author_list %}
+                        <option value="{{ author.pk }}">{{ author.name }}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+            <input type="submit" class="btn btn-default" id="sub-btn">
+        </form>
+        <a id="cancel" href="/index/"><input type="submit" class="btn btn-default" value="Cancel"></a>
+    </div>
+</div>
+</body>
+</html>

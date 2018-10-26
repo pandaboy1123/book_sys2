@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统V1.0</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-header{
+            display: inline-block;
+            width: 800px;
+        }
+        .ul_list{
+            padding-top: 8px;
+            padding-left: 15px;
+            display: inline-block;
+            color: #fff;
+        }
+        #con_btn{
+            padding: 0;
+        }
+        .row{
+            float: right;
+            display: inline-block;
+            width: 600px;
+            padding-top: 15px;
+            padding-left: 200px;
+        }
+        .input-group{
+            width: 300px;
+        }
+        .lead_body{
+            width: 100%;
+            height: 80%;
+            text-align: center;
+            background-color: #e5e5e5;
+            margin: auto;
+        }
+        .inner_body{
+            width: 80%;
+            height: 80%;
+            {#background-color: #1b6d85;#}
+            margin: auto;
+            {#border: 1px solid gray;#}
+        }
+        .td{
+            text-align: center;
+        }
+        .ul_left{
+            float: left;
+            padding-left: 60px;
+            list-style-type:none;
+            font-size: 25px;
+        }
+        .ul_left .blank{
+            {#height: 100px;#}
+            {#width: 10px;#}
+            padding-bottom: 100px;
+        }
+        .ul_left .click1:hover{
+            cursor: pointer;
+            color: orange;
+        }
+        .ul_left .click2:hover{
+            cursor: pointer;
+            color: orange;
+        }
+        .ul_left .click3:hover{
+            cursor: pointer;
+            color: orange;
+        }
+        .left_body{
+            height: 333px;
+            float: left;
+            background-color: white;
+            margin-left: -685px;
+            display: inline-block;
+            position: fixed;
+            z-index: 999;
+        }
+        #show-books, #show-issuers, #show-authors{
+            border: none;
+        }
+        #close{
+            float: right;
+            margin-right: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            position: relative;
+            z-index: 999;
+            font-size: 25px;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="lead_head">
+    {#导航条#}
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="logo">
+                    <div class="container">
+                        <div class="ul_list">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" id="con_btn">
+                                        <button type="button" class="btn btn-default navbar-btn">Welcome to the Book
+                                            Store
+                                        </button>
+                                    </a></li>
+                                    <li>
+                                        <a href="#">Index</a></li>
+
+                                    <li>
+                                        <a href="#">Books</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Issuers</a></li>
+                                    <li>
+                                        <a href="#">Authors</a></li>
+
+                                </ul>
+                                </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Anything U Want">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+    <ul class="ul_left">
+        <li class="click1">Authors</li>
+        <li class="blank"></li>
+        <li class="click2">Issuers</li>
+        <li class="blank"></li>
+        <li class="click3">Books</li>
+    </ul>
+<div class="lead_body">
+    <div class="left_body">
+        <div class="author" style="display: none">
+            <form action="" method="post">
+                 {% csrf_token %}
+                <h3>Authors</h3>
+            {% for authors in au_list %}
+                <button id="show-authors" type="submit"  value="{{ authors }}" name="name" class="btn btn-default btn-lg btn-block">{{ authors }}</button>
+                {% endfor %}
+                <button id="back1" type="button" class="btn btn-default btn-lg btn-block">Hide<<</button>
+            </form>
+        </div>
+        <div class="issuers" style="display: none">
+         <h3>Issuers</h3>
+            <form action="" method="post">
+             {% for issuers in pub_list %}
+                 {% csrf_token %}
+                  <button id="show-issuers" type="submit" value="{{ issuers.name }}" name="name" class="btn btn-default btn-lg btn-block">{{ issuers.name }}</button>
+                {% endfor %}
+                <button id="back2" type="button" class="btn btn-default btn-lg btn-block">Hide<<</button>
+        </form>
+        </div>
+    <div class="books" style="display: none">
+    <h3>Books</h3>
+         {% for books in book_list %}
+                  <button id="show-books" type="button" class="btn btn-default btn-lg btn-block">《{{ books }}》</button>
+                {% endfor %}
+            <button id="back3" type="button" class="btn btn-default btn-lg btn-block">Hide<<</button>
+    </div>
+    </div>
+    <div class="inner_body">
+
+
+        {#巨幕内容，其他母版引用的时候要删除#}
+        <div class="jumbotron">
+            <div id="first" >
+            <h1>Welcome!</h1>
+            <p>Here is something U want to know before U begin !</p>
+            <p><a id="show" class="btn btn-primary btn-lg" href="#" role="button">Show Me</a></p>
+            <p><a id="hide" class="btn btn-default btn-lg" href="#" role="button" style="display: none">Hide</a>
+                <a id="add" class="btn btn-info btn-lg" href="/index/add/" role="button" style="display: none">Add Book</a>
+            </p>
+            </div>
+            <div id="second" >
+            <span id="close" >X</span>
+                <h1>{{ name }}</h1>
+                {% for n in book_list_1 %}
+                    <p>《{{ n }}》</p>
+                {% endfor %}
+
+
+            </div>
+            </div>
+    <table id="show-hide" class="table table-bordered table-hover table-striped" style="display: none">
+             <thead>
+                    <tr>
+                         <th class="td" >Number</th>
+                         <th class="td">Title</th>
+                         <th class="td">Price</th>
+                         <th class="td">Release Date</th>
+                         <th class="td">Publishing House</th>
+                         <th class="td">Authors</th>
+                         <th class="td">Action</th>
+                    </tr>
+                 </thead>
+           <tbody>
+           {% for book in book_list %}
+                <tr>
+                         <td>{{ forloop.counter }}</td>
+                         <td >{{ book.title }}</td>
+                         <td >{{ book.price }}元</td>
+                            <td >{{ book.publishDate|date:"Y-m-d" }}</td>
+                         <td >{{ book.publish.name }}</td>
+                         <td >{% for author in book.authors.all %}
+                                  {% if forloop.last %}
+                                   <span>{{ author.name }}</span>
+                                  {% else %}
+                                   <span>{{ author.name }}</span>,
+                                  {% endif %}
+                               {% endfor %}</td>
+                         <td > <a href="/books/{{ book.pk }}/change/" class="btn btn-warning">Edit</a>
+                               <a id="del" href="/books/{{ book.pk }}/delete/" class="btn btn-danger">Delete</a></td>
+                    </tr>
+           {% endfor %}
+           </tbody>
+
+        </table>
+        </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src ="../static/JS/jQuery_File/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $("#show").click(function () {
+        $("#show, #every_list").hide();
+        $("#hide, #add").show();
+       $('#show-hide').fadeIn();
+    });
+    $("#hide").click(function () {
+         $('#show-hide').fadeOut();
+         $("#show, #every_list").show();
+        $("#add, #hide").hide();
+    });
+    $('.click1').mouseover(function () {
+       $('.author').show('10000');
+
+    });
+
+    $('.click2').mouseover(function () {
+       $('.issuers').show('10000');
+    });
+
+    $('.click3').mouseover(function () {
+       $('.books').show('10000');
+    });
+    $('#back1,#back2,#back3 ').click(function () {
+       $('.books, .issuers, .author').hide('10000');
+    });
+    $('#close').click(function () {
+       $('#close, #second').hide();
+       {#$('#first').show();#}
+    });
+    $('#del').click(function () {
+       confirm('you will delete a book!');
+    });
+</script>
+
+</html>
